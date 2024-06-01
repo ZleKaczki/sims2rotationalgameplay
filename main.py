@@ -2,10 +2,9 @@ import sys
 import json
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget,
-    QLineEdit, QTableWidget, QTableWidgetItem, QTextEdit, QLabel, QHBoxLayout, QInputDialog, QHeaderView
+    QLineEdit, QTableWidget, QTableWidgetItem, QTextEdit, QLabel, QHBoxLayout, QInputDialog, QHeaderView, QSpinBox
 )
 from PyQt5.QtGui import QFont
-
 
 class RotationalGameplayApp(QMainWindow):
     def __init__(self):
@@ -50,6 +49,14 @@ class RotationalGameplayApp(QMainWindow):
         self.add_family_button.setFont(font)
         self.add_family_button.clicked.connect(self.add_family)
         layout.addWidget(self.add_family_button)
+
+        # Create input for number of days per turn
+        self.days_input = QSpinBox(self)
+        self.days_input.setRange(1, 100)
+        self.days_input.setValue(4)  # Default value
+        self.days_input.setFont(font)
+        layout.addWidget(QLabel("Set number of days per turn:"))
+        layout.addWidget(self.days_input)
 
         # Create table to display families
         self.table = QTableWidget(self)
@@ -112,6 +119,14 @@ class RotationalGameplayApp(QMainWindow):
             self.save_data()
             self.info_display.append(f"Removed member: {member_name} from family: {family_name}")
 
+    def increment_days_played(self, family_index):
+        days_to_add = self.days_input.value()
+        self.families[family_index]["days_played"] += days_to_add
+        self.update_table()
+        self.save_data()
+        family_name = self.families[family_index]["name"]
+        self.info_display.append(f"Incremented days played for {family_name} by {days_to_add} days")
+
     def update_table(self):
         self.table.setRowCount(len(self.families))
         for row, family in enumerate(self.families):
@@ -124,6 +139,7 @@ class RotationalGameplayApp(QMainWindow):
             buttons_layout = QHBoxLayout()
             add_member_button = QPushButton("Add Member")
             remove_member_button = QPushButton("Remove Member")
+            played_button = QPushButton("Played")
 
             button_style = """
                 QPushButton {
@@ -139,12 +155,15 @@ class RotationalGameplayApp(QMainWindow):
             """
             add_member_button.setStyleSheet(button_style)
             remove_member_button.setStyleSheet(button_style)
+            played_button.setStyleSheet(button_style)
 
             add_member_button.clicked.connect(lambda checked, index=row: self.add_family_member(index))
             remove_member_button.clicked.connect(lambda checked, index=row: self.remove_family_member(index))
+            played_button.clicked.connect(lambda checked, index=row: self.increment_days_played(index))
 
             buttons_layout.addWidget(add_member_button)
             buttons_layout.addWidget(remove_member_button)
+            buttons_layout.addWidget(played_button)
 
             buttons_widget = QWidget()
             buttons_widget.setLayout(buttons_layout)

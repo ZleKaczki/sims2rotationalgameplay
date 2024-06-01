@@ -1,19 +1,31 @@
 [
     {
         "name": "Baba",
-        "days_played": 0,
+        "days_played": 11,
         "members": [
-            "Jan Nowak"
+            "Jan Nowak",
+            "Balbina Biedak"
         ]
     },
     {
         "name": "Kowal",
-        "days_played": 0,
-        "members": []
+        "days_played": 6,
+        "members": [
+            "Jak Hak",
+            "Esmeralda Hak"
+        ]
     },
     {
         "name": "Kwiecie\u0144",
-        "days_played": 0,
-        "members": []
+        "days_played": 4,
+        "members": [
+            "Mortimer Przyjemniaczek",
+            "pies",
+            "kot",
+            "cztery cztery",
+            "Anna Kwiedzie\u0144",
+            "gsgsg bdhgdhdthdt",
+            "jfjymfgjygj setgsetgset"
+        ]
     }
 ]
